@@ -40,6 +40,27 @@ app.post('/bookings',(req,res)=>{
   }     
      });
 
+// Read booking by Id
+app.get('/bookings/:id', (req, res) => {
+  const {id} = req.params;
+  const booking = bookings.find((element) => element.id === Number(id));
+  booking ? res.json(booking) : res.sendStatus(404);
+});
+
+//Delete a booking by Id
+app.delete('/bookings/:id', (req, res) => {
+  const {id} = req.params;
+  const indexToDelete = bookings.findIndex(
+    (booking) => booking.id === Number(id)
+  );
+  if (indexToDelete != -1) {
+    bookings.splice(indexToDelete, 1);
+    res.sendStatus(204);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
 
 
 const listener = app.listen(process.env.PORT, function () {
